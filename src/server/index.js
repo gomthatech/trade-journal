@@ -1,12 +1,13 @@
 var express = require("express");
 var { graphqlHTTP } = require("express-graphql");
 var { buildSchema } = require("graphql");
-const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 const User = require("./models/user");
+const cors = require("cors");
 var app = express();
-app.use(bodyParser.json());
+app.use(cors());
+
 // Construct a schema, using GraphQL schema language
 var schema = buildSchema(`
   type User {
@@ -72,10 +73,11 @@ app.use(
     graphiql: true,
   })
 );
+// console.log(process.env.DB_USER, process.env.DB_PASSWORD, process.env);
 require("dotenv").config();
 mongoose
   .connect(
-    `mongodb+srv://${`${process.env.DB_USER}`}:${`${process.env.DB_PASSWORD}`}@cluster0.jrn2x.mongodb.net/trade-journal-dev?retryWrites=true&w=majority`,
+    `mongodb+srv://Admin:LjsKCp3LoBUziU7f@cluster0.jrn2x.mongodb.net/trade-journal-dev?retryWrites=true&w=majority`,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => {

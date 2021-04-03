@@ -1,0 +1,23 @@
+.login-page-container {
+  width: 100vw;
+  height: 100vh;
+  background-image: linear-gradient(120deg, #010289 1%, #1d30d5 91%);
+
+  .google-signin-btn {
+    margin: 48px 87px 39px 93px;
+    padding: 15px 44px 14px 45px;
+    border-radius: 100px;
+    border: solid 1px #0075dc;
+    background-color: #0088ff;
+    .MuiButton-label {
+      font-size: 15px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: center;
+      color: #ffffff;
+    }
+  }
+}
