@@ -1,8 +1,8 @@
-import { Button } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import { auth, provider } from "../../../firebase";
 import "../../styles/login-page.scss";
 import SVG from "react-inlinesvg";
-import GLogo from "./google-btn.svg";
+import GLogo from "../../svgs/login/google-btn.svg";
 
 function Login() {
   const signIn = () => {
@@ -18,6 +18,16 @@ function Login() {
 
   return (
     <div className="login-page-container">
+      <div>
+        <TextField
+          label="User Name"
+          variant="outlined"
+          className="tj-login-text-input"
+        />
+      </div>
+      <div class="mT20px">
+        <TextField type="password" variant="outlined" label="Password" />
+      </div>
       <Button onClick={signIn} className="google-signin-btn">
         Sign in
       </Button>

@@ -20,4 +20,10 @@
       color: #ffffff;
     }
   }
+  .tj-login-text-input {
+    margin-top: 20px;
+    .MuiInputLabel-outlined {
+      display: none;
+    }
+  }
 }

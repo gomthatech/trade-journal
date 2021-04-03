@@ -6,6 +6,7 @@ import store from "./app/store";
 import { Provider } from "react-redux";
 import * as serviceWorker from "./serviceWorker";
 import "./client/styles/components.scss";
+import "./client/styles/helpers.scss";
 import "./App.css";
 ReactDOM.render(
   <React.StrictMode>
