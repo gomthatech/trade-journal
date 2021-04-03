@@ -72,10 +72,10 @@ app.use(
     graphiql: true,
   })
 );
-
+require("dotenv").config();
 mongoose
   .connect(
-    `mongodb+srv://${`Admin`}:${`cefp4PwD5TnfQZM8`}@cluster0.jrn2x.mongodb.net/trade-journal-dev?retryWrites=true&w=majority`,
+    `mongodb+srv://${`${process.env.DB_USER}`}:${`${process.env.DB_PASSWORD}`}@cluster0.jrn2x.mongodb.net/trade-journal-dev?retryWrites=true&w=majority`,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => {
