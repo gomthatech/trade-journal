@@ -3,9 +3,50 @@ import { auth, provider } from "../../../firebase";
 import "../../styles/login-page.scss";
 import SVG from "react-inlinesvg";
 import GLogo from "../../svgs/login/google-btn.svg";
+import React, { Component } from "react";
 
-function Login() {
-  const signIn = () => {
+class Login extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      passwordHolder: "",
+      emailHolder: "",
+    };
+  }
+
+  handleChange = (e, placeHolder) => {
+    this.setState({
+      [placeHolder]: e.target.value,
+    });
+  };
+  signIn = () => {
+    auth
+      .signInWithEmailAndPassword(
+        this.state.emailHolder,
+        this.state.passwordHolder
+      )
+      .then((userCredential) => {
+        console.log(userCredential);
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
+  signUp = () => {
+    auth
+      .createUserWithEmailAndPassword(
+        this.state.emailHolder,
+        this.state.passwordHolder
+      )
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
+  openGooglePopup = () => {
     auth
       .signInWithPopup(provider)
       .then((result) => {
@@ -16,26 +57,52 @@ function Login() {
       });
   };
 
-  return (
-    <div className="login-page-container">
-      <div>
-        <TextField
-          label="User Name"
-          variant="outlined"
-          className="tj-login-text-input"
-        />
+  render() {
+    return (
+      <div className="login-page-container pT20px">
+        <div>
+          <TextField
+            label="User Name"
+            value={this.state.emailHolder}
+            variant="outlined"
+            onChange={(e) => {
+              this.handleChange(e, "emailHolder");
+            }}
+          />
+        </div>
+        <div className="mT20px">
+          <TextField
+            type="password"
+            value={this.state.passwordHolder}
+            variant="outlined"
+            label="Password"
+            onChange={(e) => {
+              this.handleChange(e, "passwordHolder");
+            }}
+          />
+        </div>
+        <Button
+          onClick={() => {
+            this.signIn();
+          }}
+          className="google-signin-btn"
+        >
+          Sign in
+        </Button>
+        <Button
+          onClick={() => {
+            this.signUp();
+          }}
+          className="google-signin-btn mT20px"
+        >
+          Sign up
+        </Button>
+        <div className="google-btn">
+          <SVG src={GLogo}></SVG>
+        </div>
       </div>
-      <div class="mT20px">
-        <TextField type="password" variant="outlined" label="Password" />
-      </div>
-      <Button onClick={signIn} className="google-signin-btn">
-        Sign in
-      </Button>
-      <div className="google-btn">
-        <SVG src={GLogo}></SVG>
-      </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default Login;

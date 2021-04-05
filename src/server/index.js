@@ -1,6 +1,7 @@
 var express = require("express");
 var { graphqlHTTP } = require("express-graphql");
 var { buildSchema } = require("graphql");
+require("dotenv").config();
 const mongoose = require("mongoose");
 
 const User = require("./models/user");
@@ -73,11 +74,9 @@ app.use(
     graphiql: true,
   })
 );
-// console.log(process.env.DB_USER, process.env.DB_PASSWORD, process.env);
-require("dotenv").config();
 mongoose
   .connect(
-    `mongodb+srv://Admin:LjsKCp3LoBUziU7f@cluster0.jrn2x.mongodb.net/trade-journal-dev?retryWrites=true&w=majority`,
+    `mongodb+srv://${process.env.REACT_APP_DB_USER}:${process.env.REACT_APP_DB_PASSWORD}@cluster0.jrn2x.mongodb.net/trade-journal-dev?retryWrites=true&w=majority`,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => {
