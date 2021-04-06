@@ -4,6 +4,7 @@ import "../../styles/login-page.scss";
 import SVG from "react-inlinesvg";
 import GLogo from "../../svgs/login/google-btn.svg";
 import React, { Component } from "react";
+const axios = require("axios");
 
 class Login extends Component {
   constructor(props) {
@@ -41,10 +42,32 @@ class Login extends Component {
       )
       .then((result) => {
         console.log(result);
+        if (result.user) {
+          let { user } = result;
+          let { displayName, email, uid, phone } = user;
+          this.addUserEntryToDb({ displayName, email, uid, phone });
+        }
       })
       .catch((error) => {
         throw error;
       });
+  };
+  addUserEntryToDb = async ({ displayName, email, uid, phone }) => {
+    let query = {
+      query: `mutation{
+        createUser(userInput: {
+          name: "${displayName ? displayName : ""}",
+          email: "${email ? email : ""}",
+          phone: "${phone ? phone : ""}",
+          uid: "${uid ? uid : ""}"}){
+            name
+          }
+        }`,
+    };
+    const response = await axios.post("http://localhost:4000/graphql", query);
+    if (response) {
+      console.log(response);
+    }
   };
   openGooglePopup = () => {
     auth

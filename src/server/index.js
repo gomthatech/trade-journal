@@ -5,7 +5,9 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 
 const User = require("./models/user");
+// TODO remove
 const cors = require("cors");
+
 var app = express();
 app.use(cors());
 
@@ -18,12 +20,14 @@ var schema = buildSchema(`
           email: String!
         }
         input UserInput {
-         name: String!
-          phone: String!
-          email: String!
+         name: String
+          phone: String
+          email: String
+          uid: String
         }
         type RootQuery {
             users: [User!]!
+            findUserByUid(uid: String!): User!
         }
         type RootMutation {
             createUser(userInput: UserInput): User
@@ -33,7 +37,6 @@ var schema = buildSchema(`
             mutation: RootMutation
         }
 `);
-
 // The root provides a resolver function for each API endpoint
 var root = {
   users: () => {
@@ -47,11 +50,17 @@ var root = {
         throw err;
       });
   },
+  findUserByUid: ({ uid }) => {
+    return User.findOne({ uid }).then((userObj) => {
+      return { ...userObj._doc, _id: userObj.id };
+    });
+  },
   createUser: (args) => {
     const userObj = new User({
       name: args.userInput.name,
       phone: args.userInput.phone,
       email: args.userInput.email,
+      uid: args.userInput.uid,
     });
     return userObj
       .save()

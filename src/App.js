@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import Login from "./client/pages/login/Login.js";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 const axios = require("axios");
@@ -35,21 +40,9 @@ class App extends Component {
       <Router>
         <ThemeProvider theme={darkTheme}>
           <div className="App">
-            <ul>
-              <li>
-                <Link to="/login">Login</Link>
-              </li>
-              <li>
-                <Link to="/about">About</Link>
-              </li>
-              <li>
-                <Link to="/topics">Topics</Link>
-              </li>
-            </ul>
             <Switch>
-              <Route path="/login">
-                <Login></Login>
-              </Route>
+              <Redirect from="/" to="/login" exact></Redirect>
+              <Route path="/login" component={Login}></Route>
               <Route path="/home">
                 <h2>Home</h2>
               </Route>
